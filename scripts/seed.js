@@ -6,7 +6,11 @@ const {
   users,
 } = require('../app/lib/placeholder-data.js');
 const bcrypt = require('bcrypt');
-
+console.log({
+    POSTGRES_URL: process.env.POSTGRES_URL,
+    POSTGRES_URL_NON_POOLING: process.env.POSTGRES_URL_NON_POOLING
+  });
+  
 async function seedUsers(client) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
@@ -33,7 +37,7 @@ async function seedUsers(client) {
       `;
       }),
     );
-
+    
     console.log(`Seeded ${insertedUsers.length} users`);
 
     return {
@@ -162,7 +166,8 @@ async function seedRevenue(client) {
 
 async function main() {
   const client = await db.connect();
-
+  
+  console.log(`시작`);
   await seedUsers(client);
   await seedCustomers(client);
   await seedInvoices(client);

@@ -1,5 +1,5 @@
-const { db } = require('@vercel/postgres');
-const {
+const { db } = require('@vercel/postgres'); 
+const { // DB 씨딩 : 아래 것들을 DB에 추가함
   invoices,
   customers,
   revenue,

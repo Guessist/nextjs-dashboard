@@ -37,7 +37,7 @@ export default function NavLinks() {
               },
             )}
           > {/* clsx : 액티브 링크를 위한 css stying 라이브러리 */}
-            <LinkIcon className="w-6" />   {/* 아이콤 먼저 띄우고 이름 띄우기 */}
+            <LinkIcon className="w-6" />   {/* 아이콘 먼저 띄우고 이름 띄우기 */}
             <p className="hidden md:block">{link.name}</p>
           </Link>  // a -> Link로 바꾸면서 다른 페이지 누를때마다 리프레시 되지 않음. 개굿
         );

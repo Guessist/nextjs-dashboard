@@ -1,3 +1,5 @@
+'use client';
+
 import { CustomerField } from '@/app/lib/definitions';
 import Link from 'next/link';
 import {
@@ -7,16 +9,27 @@ import {
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
-
+import { createInvoice } from '@/app/lib/actions';
+import { useFormState } from 'react-dom';
 export default function Form({ customers }: { customers: CustomerField[] }) {
+  const initialState = { message: null, errors: {} };
+  const [state, dispatch] = useFormState(createInvoice, initialState);
+
   return (
-    <form>
+    
+    <form action={dispatch}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Customer Name */}
         <div className="mb-4">
           <label htmlFor="customer" className="mb-2 block text-sm font-medium">
             Choose customer
           </label>
+          {/* <label>에서 htmlFor에 해당하는 이름을 아래 
+            <select>의 id에 넣어준다
+            <select>는 아래로 리스트가 펼쳐지는 형식의 선택 메뉴
+            <select .. > <option> 갯수만큼의 리스트가 생김
+             -> <option>의
+          */}
           <div className="relative">
             <select
               id="customer"
@@ -51,6 +64,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
                 step="0.01"
                 placeholder="Enter USD amount"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                required
               />
               <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
@@ -105,6 +119,14 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
         >
           Cancel
         </Link>
+        {/* 
+        가장 일반적인 <button>의 역할 중 하나는 폼을 제출하는 것입니다. 
+        이때 <button>은 <form> 요소 내에 위치하며, type="submit" 속성을 가집니다. 
+        사용자가 이 버튼을 클릭하면 폼의 데이터가 서버로 전송됩니다.
+        이 외의 폼 리셋하기도 가능. 
+        <button type="reset">Reset</button>
+        */}
+        <Button type="reset">Reset</Button>
         <Button type="submit">Create Invoice</Button>
       </div>
     </form>

@@ -1,27 +1,29 @@
 import { generateYAxis } from '@/app/lib/utils';
 import { CalendarIcon } from '@heroicons/react/24/outline';
 import { lusitana } from '@/app/ui/fonts';
-import { Revenue } from '@/app/lib/definitions';
-
+//import { Revenue } from '@/app/lib/definitions';
+import { fetchRevenue } from '@/app/lib/data';
 // This component is representational only.
 // For data visualization UI, check out:
 // https://www.tremor.so/
 // https://www.chartjs.org/
 // https://airbnb.io/visx/
 
-export default async function RevenueChart({
-  revenue,
-}: {
-  revenue: Revenue[];
-}) {
+// export default async function RevenueChart({
+//   revenue,
+// }: {
+//   revenue: Revenue[];  // <RevenueChart 'revenue' =~ /> 중 'revenue'가 정해지는 부분
+// }) {
+  export default async function RevenueChart() { // Make component async, remove the props
+  const revenue = await fetchRevenue(); // Fetch data inside the component
   const chartHeight = 350;
   // NOTE: comment in this code when you get to this point in the course
 
-  // const { yAxisLabels, topLabel } = generateYAxis(revenue);
+  const { yAxisLabels, topLabel } = generateYAxis(revenue); // y 축 값 생성 함수
 
-  // if (!revenue || revenue.length === 0) {
-  //   return <p className="mt-4 text-gray-400">No data available.</p>;
-  // }
+  if (!revenue || revenue.length === 0) {
+    return <p className="mt-4 text-gray-400">N o data available.</p>;
+  }
 
   return (
     <div className="w-full md:col-span-4">
@@ -29,9 +31,11 @@ export default async function RevenueChart({
         Recent Revenue
       </h2>
       {/* NOTE: comment in this code when you get to this point in the course */}
-
-      {/* <div className="rounded-xl bg-gray-50 p-4">
+      
+      {/* 아래 div는 그래프가 그려지는 부분 영역 */}
+      <div className="rounded-xl bg-gray-50 p-4">  
         <div className="sm:grid-cols-13 mt-0 grid grid-cols-12 items-end gap-2 rounded-md bg-white p-4 md:gap-4">
+          {/*  y축 값 표시하기 */}
           <div
             className="mb-6 hidden flex-col justify-between text-sm text-gray-400 sm:flex"
             style={{ height: `${chartHeight}px` }}
@@ -40,11 +44,14 @@ export default async function RevenueChart({
               <p key={label}>{label}</p>
             ))}
           </div>
-
+          
+          
           {revenue.map((month) => (
+            //  막대 아래 몇월인지 쓰는 부분
             <div key={month.month} className="flex flex-col items-center gap-2">
+              {/*  막대기 그래프 그리는 부분 */}
               <div
-                className="w-full rounded-md bg-blue-300"
+                className="w-full rounded-md bg-yellow-800"
                 style={{
                   height: `${(chartHeight / topLabel) * month.revenue}px`,
                 }}
@@ -59,7 +66,7 @@ export default async function RevenueChart({
           <CalendarIcon className="h-5 w-5 text-gray-500" />
           <h3 className="ml-2 text-sm text-gray-500 ">Last 12 months</h3>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 }

@@ -12,12 +12,11 @@ export default async function InvoicesTable({
   currentPage: number;
 }) {
   const invoices = await fetchFilteredInvoices(query, currentPage);
-
-  return (
-    <div className="mt-6 flow-root">
+  
+  return (    <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
         <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
-          <div className="md:hidden">
+          <div className="md:hidden"> 
             {invoices?.map((invoice) => (
               <div
                 key={invoice.id}
